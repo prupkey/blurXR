@@ -5,13 +5,15 @@ using UnityEngine;
 public class QuadSpawner : MonoBehaviour
 {
     public GameObject conRight;
+    public GameObject conLeft;
     public int stage = 0;
-    OVRInput.Controller controller = OVRInput.Controller.RTouch;
+    // OVRInput.Controller controller = OVRInput.Controller.RTouch;
     Vector3 pointA = new Vector3(0, 0);
     Vector3 pointB = new Vector3(0, 0);
     Vector3 pointC = new Vector3(0, 0);    // set 0s
     // bool solidMesh = false; // set false
     public GameObject spawnTest;
+    public GameObject physicsObj;
 
 
     Vector3[] verticies = new Vector3[3];
@@ -63,19 +65,12 @@ public class QuadSpawner : MonoBehaviour
 
                 GetComponent<MeshFilter>().mesh = mesh;
 
-
-
-
-
                 Debug.LogError("SPAWNED");
                 stage = 0;
-
-
 
                 spawnObjectTest(pointA);
                 spawnObjectTest(pointB);
                 spawnObjectTest(pointC);
-
 
             }
             else
@@ -89,6 +84,9 @@ public class QuadSpawner : MonoBehaviour
             Debug.LogError("awaiting input");
         }
     }
+
+
+
     private void spawnObjectTest(Vector3 point)
     {
         GameObject a = Instantiate(spawnTest) as GameObject;
@@ -97,9 +95,21 @@ public class QuadSpawner : MonoBehaviour
 
 
 
+    private void spawnPhysicsObject(Vector3 point)
+    {
+        if (OVRInput.GetUp(OVRInput.Button.Three))
+        {
+            GameObject b = Instantiate(physicsObj) as GameObject;
+            b.transform.position = point;
+        }
+    }
+
+
+
     void Update()
     {
-            createQuad();
+         createQuad();
+        spawnPhysicsObject(conLeft.transform.position);
         
     }
 }

@@ -11,7 +11,8 @@ public class QuadSpawner : MonoBehaviour
 
     Vector3 pointA = new Vector3(0, 0);
     Vector3 pointB = new Vector3(0, 0);
-    Vector3 pointC = new Vector3(0, 0);    
+    Vector3 pointC = new Vector3(0, 0);
+    Vector3 rotation;
 
     public GameObject spawnTest;
     public GameObject physicsObj;
@@ -172,9 +173,11 @@ public class QuadSpawner : MonoBehaviour
             Renderer rend;
             rend = cubeOutline.GetComponent<Renderer>();
             rend.enabled = false;
-
             GameObject b = Instantiate(physicsObj) as GameObject;
-            b.transform.position = point;           
+
+            b.transform.position = point;
+            rotation = new Vector3(conLeft.transform.position.x, leftNode.transform.position.y, conLeft.transform.position.z);
+            b.transform.LookAt(rotation, transform.forward);
 
         }
     }

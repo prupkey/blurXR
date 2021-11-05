@@ -12,7 +12,7 @@ Meta (formally known as Facebook) is setting the scene for what they want the me
 
 >Obstacle Mapping
 
->Wall mapping
+>Wall Mapping
 
 >Physics Interaction
 

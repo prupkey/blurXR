@@ -29,3 +29,6 @@ Meta (formally known as Facebook) is setting the scene for what they want the me
 >player collider not tall enough
 
 >need to write my own passthrough rendering script, Oculus’s provided script has rendering layer issues
+
+***
+For those who are here to look at my scripts, you can find them [here](https://github.com/prupkey/blurXR/tree/1.0/Assets/myScripts)

@@ -1,3 +1,6 @@
+// script is used to go through the intro text for setting up a space. (also tracks the floor once marked by player. likely to move to its own script in the future)
+// one known bug: when pressing button ovr input button 4, stage gets set to 4 for some reason. 
+// known issue within every script: OVRInput is redlined but still works. After some work on the code one day, and not being able to trace what I did, all scipts I wrote had this issue show up. (maybe fixed?)
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,13 +18,14 @@ public class introText : MonoBehaviour
     public Material mat;
     public GameObject anchor;
 
-
     private LineRenderer lineRenderer;
 
+    // Start runs on first frame.
     void Start()
     {
         inIntro = true;
     }
+    //changes the stage of the intro
     void stageCount()
     {
         if (OVRInput.GetUp(OVRInput.Button.One) && inIntro == true)
@@ -29,6 +33,7 @@ public class introText : MonoBehaviour
             stage = stage + 1;
         }
     }
+    // spawms 2 visual anchor points over existing anchor points in the real world. parented to the rotation of the world.
     void reAlign()
     {
         Vector3 positionA = conLeft.transform.position;
@@ -58,12 +63,13 @@ public class introText : MonoBehaviour
         a.transform.position = positionA;
         b.transform.position = positionB;
     }
-
+    // tracks the floor to the player
     void floorTrack()
     {
         floor.transform.position = new Vector3(player.transform.position.x, floor.transform.position.y, player.transform.position.z);
     }
-
+    // checks the intro stage and shows text accoringly
+    // also goes through the motions of setting up the world by setting floor height and setting up the anchor points.
     void stageCheck()
     {
         if (stage == 1)
@@ -111,7 +117,7 @@ public class introText : MonoBehaviour
             inIntro = false;        
         }
     }
-
+    // closes menu when pressing b
     void leaveMenu()
     {
         if (OVRInput.GetDown(OVRInput.Button.Two))
@@ -119,7 +125,7 @@ public class introText : MonoBehaviour
             inIntro = false;
         }
     }
-
+    // opens menu when pressing start
     void openControlMenu()
     {
         if (OVRInput.GetDown(OVRInput.Button.Start))
@@ -128,7 +134,7 @@ public class introText : MonoBehaviour
             stage = 4;
         }
     }
-
+    //if the intro is false then should be cleaned
     void menuCleaner()
     {
         if (inIntro == false)
@@ -137,7 +143,7 @@ public class introText : MonoBehaviour
             text3d.text = "";
         }
     }
-
+   //called every frame.
     void Update()
     {
         floorTrack();        

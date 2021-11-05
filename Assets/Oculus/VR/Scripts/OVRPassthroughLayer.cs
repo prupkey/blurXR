@@ -1,3 +1,8 @@
+
+
+//script provided by oculus. Wanting to replace with my own script because there is rendering issues when it comes to layering of things like particles.
+
+
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;

@@ -2,8 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// QuadSpawner is used to spawn all objects. This includes physics objects and mapping objects. 
+// known issue within every script: OVRInput is redlined but still works. After some work on the code one day, and not being able to trace what I did, all scipts I wrote had this issue show up.
+// this is not a breaking issue (at least not known) but it makes degugging those calls harder.
+
+
 public class QuadSpawner : MonoBehaviour
 {
+    //all vars used. If I understand correctly having this many global vars can slow down the script, have not run into any issues with speed yet though.
     private int wallStage = 0;
     private int boxStage = 0;
     public int stage = 0;
@@ -39,11 +45,14 @@ public class QuadSpawner : MonoBehaviour
     Vector2[] uv = new Vector2[3];
     int[] triangles = new int[3];
 
+    // Start runs on first frame.
     private void Start()
     {
         toolText = toolName.GetComponent<TextMesh>();
     }
-
+    // Used to create Quads (a unity mesh object) 
+    //Known issues: upon creating a quad it replaces the old one. It seems to be overwriting the older data and reusing the same quad. Maybe I need to create a List or Array of quads and add 
+    // to it. I did some research on this but I am not too sure on how to do this.
     void createQuad()
     {
         if(OVRInput.GetUp(OVRInput.Button.Two))
@@ -89,6 +98,7 @@ public class QuadSpawner : MonoBehaviour
                 Debug.LogError("SPAWNED");
                 stage = 0;
 
+                // a visual marker in space to show the points used. mostly for debugging.
                 spawnObjectTest(pointA);
                 spawnObjectTest(pointB);
                 spawnObjectTest(pointC);
@@ -105,7 +115,11 @@ public class QuadSpawner : MonoBehaviour
             Debug.LogError("awaiting input");
         }
     }
+    
 
+    // createWall is used to create a virtual wall matches a physical wall. It spawns a premade wall object at floor level and then the script for it begins on Start within the wallObject. 
+    // stages match between the two scripts to make sure they are in sync. 
+    // stages include: marking a point, marking a second point and scaling the wall accoringly, fixing the distance and oriantation between the two, and finally scaling the height.
     void createWall()
     {
         if (OVRInput.GetUp(OVRInput.Button.SecondaryIndexTrigger) && wallStage == 0) 
@@ -128,6 +142,8 @@ public class QuadSpawner : MonoBehaviour
         }
 
     }
+    // similar to createWall but is used to mark out obstacles such as tables and desk. Goes through the same stages as create wall, but now scales along the width before scaling the height. 
+    // known issues within the boxscaler script: scaling direction based on the players controller is wrong when scaling the width.
     void createBox()
     {
         if (OVRInput.GetUp(OVRInput.Button.SecondaryIndexTrigger) && boxStage == 0)
@@ -153,13 +169,14 @@ public class QuadSpawner : MonoBehaviour
             boxStage = 0;
         }
     }
-
+    // used to mark quad points for debugigng.
     private void spawnObjectTest(Vector3 point)
     {
         GameObject a = Instantiate(spawnTest) as GameObject;
         a.transform.position = point;
     }
-
+    // spawns a cube in front of left controller. while holding down the button you can see where it is going to be placed before lifting your finger. Cubes have physics that interact with 
+    // floor, walls, and boxs
     private void spawnPhysicsObject(Vector3 point)
     {
         if (OVRInput.GetDown(OVRInput.Button.Three))
@@ -181,7 +198,9 @@ public class QuadSpawner : MonoBehaviour
 
         }
     }
-    
+
+    // same as spawnPhysicsObject but spawns a sphere that can roll.
+
     private void spawnPhysicsSphere(Vector3 point)
     {
         if (OVRInput.GetDown(OVRInput.Button.Four))
@@ -201,6 +220,8 @@ public class QuadSpawner : MonoBehaviour
             
         }
     }
+
+    //using right thumbstick you can cycle between the tools for mapping. Right now it contains wall and box tool. It also shows the name of the tool next to the right hand contoller.
 
     private void toolSelection()
     {
@@ -226,11 +247,9 @@ public class QuadSpawner : MonoBehaviour
             tool = 0;
         }
     }
-
-    
+    //called every frame.
     void Update()
     {
-
         toolSelection();
         createQuad();
         spawnPhysicsObject(leftNode.transform.position);

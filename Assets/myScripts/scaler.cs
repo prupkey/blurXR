@@ -7,6 +7,7 @@ public class scaler : MonoBehaviour
 {
     public GameObject conRight;
     public GameObject floor;
+    public GameObject parent;
     public bool building = true;
     private Vector3 initialScale;
     private Vector3 conFloor;
@@ -18,7 +19,7 @@ public class scaler : MonoBehaviour
         initialScale = transform.localScale;
         conRight = GameObject.Find("RightHandAnchor");
         floor = GameObject.Find("GroundPlane");
-
+        parent = GameObject.Find("WorldPos");
     }
     //changes the stage of the scaling action, every time a stage is changed the scale is saved.
     void stager()
@@ -53,6 +54,7 @@ public class scaler : MonoBehaviour
         }
         else if (stage == 2) // wall created, kill script.
         {
+            transform.SetParent(parent.transform);
             enabled = false;
         }
     }

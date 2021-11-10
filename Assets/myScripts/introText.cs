@@ -12,10 +12,14 @@ public class introText : MonoBehaviour
     public int stage = 0;
     public bool inIntro;
     public GameObject conLeft;
+    public GameObject leftMesh;
+    public GameObject rightMesh;
     public GameObject conRight;
     public GameObject Target;
     public GameObject floor;
     public Material mat;
+    public Material enabledMat;
+    public Material nullMat;
     public GameObject anchor;
 
     private LineRenderer lineRenderer;
@@ -76,6 +80,7 @@ public class introText : MonoBehaviour
         {
             text3d = GetComponent<TextMesh>();
             GetComponent<TextMesh>().fontSize = 55;
+            rightMesh.GetComponent<SkinnedMeshRenderer>().material = enabledMat;
 
             text3d.text = "PLACE RIGHT HAND ON GROUND\n PRESS A";
             if (OVRInput.GetDown(OVRInput.Button.One))
@@ -88,6 +93,8 @@ public class introText : MonoBehaviour
         {
             text3d = GetComponent<TextMesh>();
             text3d.text = "PLACE CONTROLLERS\nON ANCHOR STATIONS\nPRESS A";
+            leftMesh.GetComponent<SkinnedMeshRenderer>().material = enabledMat; //   THESE BREAK MY CODE FOR SOME REASON
+            //would like to use these lines to change the material of the controllers to 
 
             if (OVRInput.GetDown(OVRInput.Button.One))
             {
@@ -96,6 +103,8 @@ public class introText : MonoBehaviour
         }        
         else if (stage == 3)
         {
+            rightMesh.GetComponent<SkinnedMeshRenderer>().material = nullMat;
+            leftMesh.GetComponent<SkinnedMeshRenderer>().material = nullMat;
             text3d = GetComponent<TextMesh>();
             text3d.text = "CONTROLS - PRESS A\nCLOSE - PRESS B";
             

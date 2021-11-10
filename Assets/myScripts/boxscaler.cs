@@ -8,6 +8,7 @@ public class boxscaler : MonoBehaviour
 {
     public GameObject conRight;
     public GameObject floor;
+    public GameObject parent;
     public bool building = true;
     private Vector3 initialScale;
     private Vector3 conFloor;
@@ -22,6 +23,7 @@ public class boxscaler : MonoBehaviour
         initialScale = transform.localScale;
         conRight = GameObject.Find("RightHandAnchor");
         floor = GameObject.Find("GroundPlane");
+        parent = GameObject.Find("WorldPos");
 
     }
     //changes the stage of the scaling action, every time a stage is changed the scale is saved.
@@ -76,6 +78,7 @@ public class boxscaler : MonoBehaviour
         }
         else if (stage == 3) // box created, kill script.
         {
+            transform.SetParent(parent.transform);
             enabled = false;
         }
 

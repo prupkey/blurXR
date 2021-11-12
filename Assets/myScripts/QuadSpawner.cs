@@ -38,6 +38,8 @@ public class QuadSpawner : MonoBehaviour
 
     public Material quadMat;
 
+    public bool snapState = true;
+
     TextMesh toolText;
 
     private Vector3 InitialScale;
@@ -56,6 +58,18 @@ public class QuadSpawner : MonoBehaviour
     // Used to create Quads (a unity mesh object) 
     //Known issues: upon creating a quad it replaces the old one. It seems to be overwriting the older data and reusing the same quad. Maybe I need to create a List or Array of quads and add 
     // to it. I did some research on this but I am not too sure on how to do this.
+
+    public Vector3 Snap(Vector3 cords)
+    {
+        if (snapState == true)
+        {
+            GameObject snapPoint = GameObject.Find("SnapON");
+            return cords;
+        }
+        else
+            return cords;            
+    }
+
     void createQuad()
     {
         if(OVRInput.GetUp(OVRInput.Button.Two))
@@ -63,6 +77,7 @@ public class QuadSpawner : MonoBehaviour
             if (stage == 0)
             {
                 pointA = rightNode.transform.position;
+                Snap(pointA);
                 stage = stage + 1;
                 Debug.LogError("stage 1 - point stored");
                 spawnObjectTest(pointA);
@@ -70,6 +85,7 @@ public class QuadSpawner : MonoBehaviour
             else if (stage == 1)
             {
                 pointB = rightNode.transform.position;
+                Snap(pointB);
                 stage = stage + 1;
                 Debug.LogError("stage 2 - point stored");
                 spawnObjectTest(pointB);
@@ -77,7 +93,8 @@ public class QuadSpawner : MonoBehaviour
             else if (stage == 2)
             {
                 pointC = rightNode.transform.position;
-                
+                Snap(pointC);
+
                 Debug.LogError("stage 3 - point stored");
 
                 Mesh mesh = new Mesh();

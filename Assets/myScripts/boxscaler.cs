@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class boxscaler : MonoBehaviour
 {
-    public GameObject conRight;
+    public GameObject rightNode;
     public GameObject floor;
     public GameObject parent;
     public bool building = true;
@@ -21,7 +21,7 @@ public class boxscaler : MonoBehaviour
     private void Start()
     {
         initialScale = transform.localScale;
-        conRight = GameObject.Find("RightHandAnchor");
+        rightNode = GameObject.Find("RightNode");
         floor = GameObject.Find("GroundPlane");
         parent = GameObject.Find("WorldPos");
 
@@ -47,7 +47,7 @@ public class boxscaler : MonoBehaviour
         }
         if (stage == 0) // after first point is marked it looks for second one and scales based on where your controler is.
         {
-            conFloor = new Vector3(conRight.transform.position.x, floor.transform.position.y, conRight.transform.position.z);
+            conFloor = new Vector3(rightNode.transform.position.x, floor.transform.position.y, rightNode.transform.position.z);
             float distance = Vector3.Distance(transform.position, conFloor);
             transform.localScale = new Vector3(initialScale.x, initialScale.y, distance);
             transform.forward = transform.position - conFloor;
@@ -55,7 +55,7 @@ public class boxscaler : MonoBehaviour
         }
         else if (stage == 1) // KNOWN ISSUE after 2 points are marked it begins to scale along the width based on location of right hand contoller. I want to scale along the axis created by the two points spawned above but scales along the wrong axis. Works but you need to know how to move your controller. maybe use absolute val?            
         {
-            conWidth = new Vector3(conRight.transform.position.x, floor.transform.position.y, conRight.transform.position.z);
+            conWidth = new Vector3(rightNode.transform.position.x, floor.transform.position.y, rightNode.transform.position.z);
             float distance = Vector3.Distance(transform.position, conWidth);
 
             angle = Vector3.Angle(conWidth, transform.position);
@@ -72,7 +72,7 @@ public class boxscaler : MonoBehaviour
         }
         else if (stage == 2) // simply scales the height of the box to the height between floor and controller.
         {
-            conHeight = new Vector3(transform.position.x, conRight.transform.position.y, transform.position.z);
+            conHeight = new Vector3(transform.position.x, rightNode.transform.position.y, transform.position.z);
             float distance = Vector3.Distance(transform.position, conHeight);
             transform.localScale = new Vector3(initialScale.x, distance, initialScale.z);
         }

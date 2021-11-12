@@ -33,7 +33,10 @@ public class QuadSpawner : MonoBehaviour
     public GameObject conRight;
     public GameObject conLeft;
     public GameObject leftNode;
+    public GameObject rightNode;
     public GameObject toolName;
+
+    public Material quadMat;
 
     TextMesh toolText;
 
@@ -59,19 +62,21 @@ public class QuadSpawner : MonoBehaviour
         {
             if (stage == 0)
             {
-                pointA = conRight.transform.position;
+                pointA = rightNode.transform.position;
                 stage = stage + 1;
                 Debug.LogError("stage 1 - point stored");
+                spawnObjectTest(pointA);
             }
             else if (stage == 1)
             {
-                pointB = conRight.transform.position;
+                pointB = rightNode.transform.position;
                 stage = stage + 1;
                 Debug.LogError("stage 2 - point stored");
+                spawnObjectTest(pointB);
             }
             else if (stage == 2)
             {
-                pointC = conRight.transform.position;
+                pointC = rightNode.transform.position;
                 
                 Debug.LogError("stage 3 - point stored");
 
@@ -93,14 +98,17 @@ public class QuadSpawner : MonoBehaviour
                 mesh.uv = uv;
                 mesh.triangles = triangles;
 
-                GetComponent<MeshFilter>().mesh = mesh;
+                var newQuad = new GameObject("Quad");
+                MeshFilter mf = newQuad.gameObject.AddComponent<MeshFilter>() as MeshFilter;
+                MeshRenderer mr = newQuad.gameObject.AddComponent<MeshRenderer>() as MeshRenderer;
+                newQuad.GetComponent<MeshRenderer>().material = quadMat;
+                newQuad.GetComponent<MeshFilter>().mesh = mesh;
 
                 Debug.LogError("SPAWNED");
                 stage = 0;
 
-                // a visual marker in space to show the points used. mostly for debugging.
-                spawnObjectTest(pointA);
-                spawnObjectTest(pointB);
+                // a visual marker in space to show the points used. mostly for debugging.               
+                
                 spawnObjectTest(pointC);
 
             }
@@ -122,9 +130,9 @@ public class QuadSpawner : MonoBehaviour
     // stages include: marking a point, marking a second point and scaling the wall accoringly, fixing the distance and oriantation between the two, and finally scaling the height.
     void createWall()
     {
-        if (OVRInput.GetUp(OVRInput.Button.SecondaryIndexTrigger) && wallStage == 0) 
+        if (OVRInput.GetDown(OVRInput.Button.SecondaryIndexTrigger) && wallStage == 0) 
         {
-            Vector3 wallPointA = conRight.transform.position;
+            Vector3 wallPointA = rightNode.transform.position;
             GameObject wallNew = Instantiate(wall) as GameObject;
             wallNew.transform.position = wallPointA;
             wallNew.transform.position = new Vector3(wallNew.transform.position.x, floor.transform.position.y, wallNew.transform.position.z);
@@ -132,11 +140,11 @@ public class QuadSpawner : MonoBehaviour
             wallStage = wallStage + 1;
 
         }
-        else if (OVRInput.GetUp(OVRInput.Button.SecondaryIndexTrigger) && wallStage == 1)
+        else if (OVRInput.GetDown(OVRInput.Button.SecondaryIndexTrigger) && wallStage == 1)
         {
             wallStage = wallStage + 1;
         }
-        else if (OVRInput.GetUp(OVRInput.Button.SecondaryIndexTrigger) && wallStage == 2)
+        else if (OVRInput.GetDown(OVRInput.Button.SecondaryIndexTrigger) && wallStage == 2)
         {
             wallStage = 0;
         }
@@ -148,7 +156,7 @@ public class QuadSpawner : MonoBehaviour
     {
         if (OVRInput.GetUp(OVRInput.Button.SecondaryIndexTrigger) && boxStage == 0)
         {
-            Vector3 boxPoint = conRight.transform.position;
+            Vector3 boxPoint = rightNode.transform.position;
             GameObject boxNew = Instantiate(box) as GameObject;
             boxNew.transform.position = boxPoint;
             boxNew.transform.position = new Vector3(boxNew.transform.position.x, floor.transform.position.y, boxNew.transform.position.z);

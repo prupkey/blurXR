@@ -5,7 +5,8 @@ using UnityEngine;
 
 public class scaler : MonoBehaviour
 {
-    public GameObject conRight;
+    
+    public GameObject rightNode;
     public GameObject floor;
     public GameObject parent;
     public bool building = true;
@@ -17,7 +18,7 @@ public class scaler : MonoBehaviour
     private void Start()
     {
         initialScale = transform.localScale;
-        conRight = GameObject.Find("RightHandAnchor");
+        rightNode = GameObject.Find("RightNode");
         floor = GameObject.Find("GroundPlane");
         parent = GameObject.Find("WorldPos");
     }
@@ -40,7 +41,7 @@ public class scaler : MonoBehaviour
         }            
         if (stage == 0) // after first point is marked it looks for second one and scales based on where your controler is.
         {
-            conFloor = new Vector3(conRight.transform.position.x, floor.transform.position.y, conRight.transform.position.z);
+            conFloor = new Vector3(rightNode.transform.position.x, floor.transform.position.y, rightNode.transform.position.z);
             float distance = Vector3.Distance(transform.position, conFloor);
             transform.localScale = new Vector3(initialScale.x, initialScale.y, distance);
             transform.forward = transform.position - conFloor;
@@ -48,7 +49,7 @@ public class scaler : MonoBehaviour
         }
         else if (stage == 1) // simply scales the height of the wall to the height between floor and controller.
         {
-            conHeight = new Vector3(transform.position.x, conRight.transform.position.y, transform.position.z);
+            conHeight = new Vector3(transform.position.x, rightNode.transform.position.y, transform.position.z);
             float distance = Vector3.Distance(transform.position, conHeight);
             transform.localScale = new Vector3(initialScale.x, distance, initialScale.z);
         }

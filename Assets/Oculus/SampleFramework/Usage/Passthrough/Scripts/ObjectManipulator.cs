@@ -144,8 +144,7 @@ public class ObjectManipulator : MonoBehaviour
         RaycastHit[] objectsHit = Physics.RaycastAll(controllerPos, controllerRot * Vector3.forward);
         float closestObject = Mathf.Infinity;
         float rayDistance = 2.0f;
-        bool showLaser = false;
-        ///////////////////////////////////
+        bool showLaser = true;
         Vector3 labelPosition = Vector3.zero;
         foreach (RaycastHit hit in objectsHit)
         {

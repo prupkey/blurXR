@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class scaler : MonoBehaviour
 {
+    public GameObject manager;
+    public SaveAndLoader sal;
+
     
     public GameObject rightNode;
     public GameObject floor;
@@ -14,6 +17,7 @@ public class scaler : MonoBehaviour
     private Vector3 conFloor;
     private Vector3 conHeight;
     private int stage = 0;
+
     //called on first frame once spawned.
     private void Start()
     {
@@ -21,6 +25,10 @@ public class scaler : MonoBehaviour
         rightNode = GameObject.Find("RightNode");
         floor = GameObject.Find("GroundPlane");
         parent = GameObject.Find("WorldPos");
+
+        manager = GameObject.Find("Manager");
+        sal = manager.GetComponent<SaveAndLoader>();
+
     }
     //changes the stage of the scaling action, every time a stage is changed the scale is saved.
     void stager()
@@ -55,7 +63,20 @@ public class scaler : MonoBehaviour
         }
         else if (stage == 2) // wall created, kill script.
         {
+
             transform.SetParent(parent.transform);
+
+            ObjectSaveData obSD = new ObjectSaveData();
+
+            obSD.position = gameObject.transform.position;
+            obSD.rotation = gameObject.transform.rotation;
+            obSD.localscale = gameObject.transform.localScale;
+
+
+            sal.saveListData.Add(obSD);
+            
+            //add to save list
+
             enabled = false;
         }
     }

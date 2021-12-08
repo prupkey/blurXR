@@ -147,7 +147,7 @@ public class QuadSpawner : MonoBehaviour
     // stages include: marking a point, marking a second point and scaling the wall accoringly, fixing the distance and oriantation between the two, and finally scaling the height.
     void createWall()
     {
-        if (OVRInput.GetDown(OVRInput.Button.SecondaryIndexTrigger) && wallStage == 0) 
+        if (OVRInput.GetUp(OVRInput.Button.SecondaryIndexTrigger) && wallStage == 0) 
         {
             Vector3 wallPointA = rightNode.transform.position;
             GameObject wallNew = Instantiate(wall) as GameObject;
@@ -157,11 +157,11 @@ public class QuadSpawner : MonoBehaviour
             wallStage = wallStage + 1;
 
         }
-        else if (OVRInput.GetDown(OVRInput.Button.SecondaryIndexTrigger) && wallStage == 1)
+        else if (OVRInput.GetUp(OVRInput.Button.SecondaryIndexTrigger) && wallStage == 1)
         {
             wallStage = wallStage + 1;
         }
-        else if (OVRInput.GetDown(OVRInput.Button.SecondaryIndexTrigger) && wallStage == 2)
+        else if (OVRInput.GetUp(OVRInput.Button.SecondaryIndexTrigger) && wallStage == 2)
         {
             wallStage = 0;
         }

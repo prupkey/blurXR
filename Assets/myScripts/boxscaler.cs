@@ -17,13 +17,20 @@ public class boxscaler : MonoBehaviour
     private int stage = 0;
     private float angle;
 
+    //private GameObject writer;
+   // private JSONwriter write2me;
+   
+
     //called on first frame once spawned.
     private void Start()
     {
         initialScale = transform.localScale;
         rightNode = GameObject.Find("RightNode");
         floor = GameObject.Find("GroundPlane");
-        parent = GameObject.Find("WorldPos");
+        parent = GameObject.Find("WorldPos");     
+        
+       // writer = GameObject.Find("Manager");
+      //  write2me = writer.GetComponent<JSONwriter>();
 
     }
     //changes the stage of the scaling action, every time a stage is changed the scale is saved.
@@ -79,7 +86,12 @@ public class boxscaler : MonoBehaviour
         else if (stage == 3) // box created, kill script.
         {
             transform.SetParent(parent.transform);
+
+            //sh.AddNameToList(gameObject);
+
             enabled = false;
+
+
         }
 
     }

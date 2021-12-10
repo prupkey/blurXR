@@ -8,7 +8,7 @@ public class scaler : MonoBehaviour
     public GameObject manager;
     public SaveAndLoader sal;
 
-    
+
     public GameObject rightNode;
     public GameObject floor;
     public GameObject parent;
@@ -39,6 +39,7 @@ public class scaler : MonoBehaviour
             initialScale = transform.localScale;
         }
     }
+
     // called every frame.
     void Update()
     {
@@ -46,14 +47,15 @@ public class scaler : MonoBehaviour
         if (OVRInput.GetDown(OVRInput.Button.SecondaryThumbstick)) // if tool changes then script is disabled.
         {
             enabled = false;
-        }            
+        }
         if (stage == 0) // after first point is marked it looks for second one and scales based on where your controler is.
         {
             conFloor = new Vector3(rightNode.transform.position.x, floor.transform.position.y, rightNode.transform.position.z);
             float distance = Vector3.Distance(transform.position, conFloor);
             transform.localScale = new Vector3(initialScale.x, initialScale.y, distance);
             transform.forward = transform.position - conFloor;
-            transform.LookAt(conFloor);           
+            transform.LookAt(conFloor);
+
         }
         else if (stage == 1) // simply scales the height of the wall to the height between floor and controller.
         {
@@ -61,21 +63,19 @@ public class scaler : MonoBehaviour
             float distance = Vector3.Distance(transform.position, conHeight);
             transform.localScale = new Vector3(initialScale.x, distance, initialScale.z);
         }
-        else if (stage == 2) // wall created, kill script.
+        else if (stage == 2) // wall created and anchored, save it and kill script.
         {
-
             transform.SetParent(parent.transform);
 
             ObjectSaveData obSD = new ObjectSaveData();
-
-            obSD.position = gameObject.transform.position;
-            obSD.rotation = gameObject.transform.rotation;
-            obSD.localscale = gameObject.transform.localScale;
-
+            obSD.objPosition = gameObject.transform.position; //saves the object's position data to the list 
+            obSD.objLocalScale = gameObject.transform.localScale; //saves the object's scale data to the list 
+            //Vector4 v4Qaut = gameObject.transform.rotation.x;
+            obSD.objQuat = new Vector4((gameObject.transform.rotation.x), (gameObject.transform.rotation.y), (gameObject.transform.rotation.z), (gameObject.transform.rotation.w)); //saves the object's rotation data to the list 
 
             sal.saveListData.Add(obSD);
-            
-            //add to save list
+
+            // add to save list
 
             enabled = false;
         }

@@ -50,6 +50,7 @@ public class QuadSpawner : MonoBehaviour
     Vector2[] uv = new Vector2[3];
     int[] triangles = new int[3];
 
+
     // Start runs on first frame.
     private void Start()
     {
@@ -67,12 +68,12 @@ public class QuadSpawner : MonoBehaviour
             return cords;
         }
         else
-            return cords;            
+            return cords;
     }
 
     void createQuad()
     {
-        if(OVRInput.GetUp(OVRInput.Button.Two))
+        if (OVRInput.GetUp(OVRInput.Button.Two))
         {
             if (stage == 0)
             {
@@ -125,7 +126,7 @@ public class QuadSpawner : MonoBehaviour
                 stage = 0;
 
                 // a visual marker in space to show the points used. mostly for debugging.               
-                
+
                 spawnObjectTest(pointC);
 
             }
@@ -140,14 +141,14 @@ public class QuadSpawner : MonoBehaviour
             Debug.LogError("awaiting input");
         }
     }
-    
+
 
     // createWall is used to create a virtual wall matches a physical wall. It spawns a premade wall object at floor level and then the script for it begins on Start within the wallObject. 
     // stages match between the two scripts to make sure they are in sync. 
     // stages include: marking a point, marking a second point and scaling the wall accoringly, fixing the distance and oriantation between the two, and finally scaling the height.
     void createWall()
     {
-        if (OVRInput.GetUp(OVRInput.Button.SecondaryIndexTrigger) && wallStage == 0) 
+        if (OVRInput.GetUp(OVRInput.Button.SecondaryIndexTrigger) && wallStage == 0)
         {
             Vector3 wallPointA = rightNode.transform.position;
             GameObject wallNew = Instantiate(wall) as GameObject;
@@ -242,7 +243,7 @@ public class QuadSpawner : MonoBehaviour
 
             GameObject c = Instantiate(physicsObj2) as GameObject;
             c.transform.position = point;
-            
+
         }
     }
 
@@ -252,7 +253,7 @@ public class QuadSpawner : MonoBehaviour
     {
         if (OVRInput.GetDown(OVRInput.Button.SecondaryThumbstick))
         {
-            tool = tool + 1;            
+            tool = tool + 1;
         }
 
         if (tool == 0) //wall tool
@@ -278,6 +279,6 @@ public class QuadSpawner : MonoBehaviour
         toolSelection();
         createQuad();
         spawnPhysicsObject(leftNode.transform.position);
-        spawnPhysicsSphere(leftNode.transform.position);   
+        spawnPhysicsSphere(leftNode.transform.position);
     }
 }

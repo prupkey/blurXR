@@ -3,10 +3,8 @@ using System;
 
 [Serializable]
 public class ObjectSaveData 
-{
-
-    public Vector3 position;
-    public Vector3 localscale;
-    public Quaternion rotation;
-
+{ 
+    public Vector3 objPosition;
+    public Vector3 objLocalScale;
+    public Vector4 objQuat;
 }

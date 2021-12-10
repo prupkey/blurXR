@@ -1,5 +1,5 @@
 # blurXR
-
+######  OLD BRANCHES DELETED. USE THIS AS MAIN BRANCH.
 blurXR is a cross reality experience aimed to allow anyone with an Oculus Quest 2 to map out and design their home or workspace into an interactable virtual environment.
 
 Using Oculus’s Unity Integration, we can access the Passthrough API and send the visual data to Unity. This allows for users to walk around any space without having to take off their headset. 
